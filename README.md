@@ -14,6 +14,7 @@ Instead of every batch-processing module injecting its own duplicate scripts, re
 - [Features & Usage](#features--usage)
 - [Developer Guide: Integrating Your Plugin](#developer-guide-integrating-your-plugin)
 - [Common Issues](#common-issues)
+- [Screenshot](#screenshot)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -106,6 +107,8 @@ class zcObserverMyBatchPlugin extends base
     }
 }
 ```
+## Screenshot
+<img alt="batch order select" src="https://github.com/user-attachments/assets/b9a50d43-4621-41bd-9993-c4e772ba4718" />
 
 ## Common Issues
 * **Install paused on Zen Cart 2.1.0 – 2.2.2:** This is an intentional safety feature. Simply click **Install** a second time within 15 minutes to complete the installation.
