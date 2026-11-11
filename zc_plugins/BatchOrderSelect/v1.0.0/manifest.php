@@ -22,7 +22,7 @@ $buttons = '<div class="buttons my-2">' . $button_readme . ' ' . $button_github 
 return [
     'pluginVersion' => 'v1.0.0',
     'pluginName' => 'Batch Order Select',
-    'pluginDescription' => 'Adds a checkbox column and one shared action row to the admin orders listing.',
+    'pluginDescription' => 'Adds a checkbox column and one shared action row to the admin orders listing.' . $buttons,
     'pluginAuthor' => 'Leonard, ZenExpert',
     'pluginId' => 0,
     'zcVersions' => ['v210', 'v220', 'v221', 'v222', 'v300'],
