@@ -1,0 +1,41 @@
+#orders-table .zc-bos-col {
+    width: 2.25rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#orders-table .zc-bos-check,
+#orders-table .zc-bos-all {
+    margin: 0;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.zc-bos-bar {
+    margin: 0 0 0.75rem;
+}
+
+.zc-bos-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.zc-bos-actions .zc-bos-form {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+.zc-bos-count,
+.zc-bos-hint {
+    color: #555;
+}
+
+.zc-bos-actions .btn:disabled,
+.zc-bos-actions button:disabled {
+    cursor: not-allowed;
+}

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Order Select - Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f9f9f9;
+        }
+
+        main {
+            background-color: #fff;
+            padding: 2rem 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            position: relative;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5em;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f7fa;
+            font-weight: 600;
+        }
+
+        blockquote {
+            border-left: 4px solid #3498db;
+            margin: 1.5em 0;
+            padding: 0.5em 1em;
+            background-color: #f4f8fa;
+            color: #555;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #27ae60;
+            border-radius: 12px;
+        }
+
+        .back-to-top {
+            font-size: 14px;
+            font-weight: normal;
+            float: right;
+            text-decoration: none;
+            color: #3498db;
+            margin-top: 6px;
+        }
+
+        .back-to-top:hover {
+            text-decoration: underline;
+        }
+        .meta-header {
+            display: flex;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 1.5em 0;
+        }
+        .meta-left {
+            flex: 0 0 35%;
+            padding: 15px;
+            border-right: 1px solid #ddd;
+        }
+        .meta-right {
+            flex: 1;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        @media (max-width: 768px) {
+            .meta-header {
+                flex-direction: column;
+            }
+            .meta-left {
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<main id="top">
+    <h1>Batch Order Select</h1>
+
+    <div class="meta-header">
+        <div class="meta-left">
+            <strong>Version:</strong> 1.0.0<br>
+            <strong>Release Date:</strong> November 2026<br>
+            <strong>Platform:</strong> Zen Cart 2.1.0+<br>
+            <strong>Architecture:</strong> Encapsulated Plugin, Observer-Based<br>
+            <strong>Author:</strong> Leonard, ZenExpert<br>
+            <strong>Contact:</strong> <a href="mailto:info@zenexpert.com">e-mail me</a> (considered as quote requests)
+        </div>
+        <div class="meta-right">
+            Thank you for downloading this plugin. Please note that this plugin is installed and used at your own risk. If you are unsure of how to complete the installation procedure documented below, please seek support in the official Forum section (keep in mind Forums are public and work on voluntary basis) or contact me for paid assistance. ZenExpert takes no responsibility for problems related to the installation or use of this plugin.
+        </div>
+    </div>
+
+    <p><strong>Batch Order Select</strong> provides a shared, standardized order selection checkbox column and unified action bar for the Zen Cart admin orders listing (<code>Customers &gt; Orders</code>). Instead of every batch-processing module injecting its own checkboxes, duplicate scripts, or stacked button rows, this plugin establishes a single checkbox column and a shared action bar that other plugins (such as <em>Batch Order Print</em>, bulk status updaters, or shipping exporters) can seamlessly hook into.</p>
+
+    <blockquote>
+        <strong style="color: #e74c3c;">IMPORTANT: This plugin provides no standalone functionality.</strong><br>
+        Batch Order Select is a foundational "skeleton" plugin with a sole purpose to establish a shared, standardized checkbox column and a unified action bar which will then be used by other plugins (such as <em>Batch Order Print</em>) to seamlessly hook their buttons into its interface.
+    </blockquote>
+
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><a href="#installation">Installation &amp; Core Notifier Patching</a></li>
+        <li><a href="#features-usage">Features &amp; Usage</a></li>
+        <li><a href="#developer-guide">Developer Guide: Integrating Your Plugin</a>
+            <ul>
+                <li><a href="#shared-checkboxes">How Shared Checkboxes Work</a></li>
+                <li><a href="#appending-buttons">How to Append Action Buttons to the Existing Row</a></li>
+                <li><a href="#code-example">Complete Observer &amp; Form Example</a></li>
+                <li><a href="#technical-notes">Technical Details &amp; Notifiers</a></li>
+            </ul>
+        </li>
+        <li><a href="#uninstallation">Uninstallation</a></li>
+        <li><a href="#common-issues">Common Issues</a></li>
+        <li><a href="#sources-credits">Sources and Credits</a></li>
+        <li><a href="#support">Support</a></li>
+        <li><a href="#license">License</a></li>
+    </ul>
+
+    <h2 id="installation">Installation &amp; Core Notifier Patching <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <p>Batch Order Select is built as an <strong>Encapsulated Plugin</strong> for Zen Cart 2.1.0 and higher. It creates no database tables or configuration keys.</p>
+    
+    <blockquote>
+        <strong>Important Note on Zen Cart Versions:</strong><br>
+        The leading-column notifiers (<code>NOTIFY_ADMIN_ORDERS_LIST_LEADING_COLUMN_HEADING</code> and <code>NOTIFY_ADMIN_ORDERS_LIST_LEADING_COLUMN_DATA</code>) were officially added to Zen Cart core in <strong>v2.3.0</strong>. 
+        <ul>
+            <li><strong>Zen Cart 2.3.0 and newer:</strong> 100% zero core file modifications. The installer detects the native notifiers and leaves <code>admin/orders.php</code> completely untouched.</li>
+            <li><strong>Zen Cart 2.1.0 – 2.2.2:</strong> Because earlier versions do not include the leading-column notifiers in core, the scripted installer includes a safe, two-step confirmation process that automatically backs up <code>admin/orders.php</code> to <code>admin/orders.php_bos_backup</code> and injects the two missing notifiers.</li>
+        </ul>
+    </blockquote>
+
+    <ol>
+        <li>Backup your store files and database.</li>
+        <li>Copy the <code>BatchOrderSelect</code> folder into your store's <code>zc_plugins</code> directory so the structure matches:<br>
+            <code>zc_plugins/BatchOrderSelect/v1.0.0/manifest.php</code>
+        </li>
+        <li>In your Zen Cart Admin, navigate to <strong>Modules > Plugin Manager</strong>.</li>
+        <li>Locate <strong>Batch Order Select</strong> and click <strong>Install</strong>:
+            <ul>
+                <li><strong>On Zen Cart 2.3.0+:</strong> The plugin installs immediately.</li>
+                <li><strong>On Zen Cart 2.1.0 – 2.2.2:</strong> If <code>admin/orders.php</code> does not yet contain the leading-column notifiers, the first click on <strong>Install</strong> pauses without changing any files and displays a notice explaining the patch. Click <strong>Install</strong> a second time (within 15 minutes) to confirm and apply the patch, or click <strong>Cancel</strong> to abort and leave <code>admin/orders.php</code> unchanged. When confirmed, your original file is safely backed up to <code>admin/orders.php_bos_backup</code> before the notifiers are inserted.</li>
+            </ul>
+        </li>
+        <li>Enable the plugin if the Plugin Manager does not automatically enable it for you.</li>
+        <li>Install any companion batch plugins (such as <em>Batch Order Print</em>) <strong>after</strong> installing Batch Order Select.</li>
+    </ol>
+
+    <h2 id="features-usage">Features &amp; Usage <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <p>Once installed, navigate to <strong>Customers &gt; Orders</strong> in your Zen Cart admin panel:</p>
+    <ul>
+        <li><strong>Leading Checkbox Column:</strong> A dedicated checkbox column appears as the very first column in the orders table, immediately before the Order ID. Each checkbox cell uses the <code>dataTableButtonCell</code> class so clicking a checkbox will not accidentally trigger the row click or navigate away from the listing.</li>
+        <li><strong>Select All (Header Checkbox):</strong> Clicking the checkbox in the table header selects or deselects every order listed on the current page. When only some orders are selected, the header checkbox displays an indeterminate state.</li>
+        <li><strong>Shift-Click Range Selection:</strong> Click any order checkbox, hold down the <kbd>Shift</kbd> key, and click another checkbox further up or down the table to instantly toggle every order between them.</li>
+        <li><strong>Unified Action Row:</strong> A single toolbar row (<code>.zc-bos-bar</code>) sits neatly beneath the search filters and right above the orders table. It displays a live counter of how many orders are currently selected (e.g., <em>"3 selected"</em>) alongside a helpful Shift-click reminder.</li>
+        <li><strong>Smart Button State Management:</strong> Checkboxes only handle selection; the specific button you click determines the action performed. All batch action buttons remain disabled until at least one order is checked, preventing accidental empty submissions.</li>
+    </ul>
+
+    <h2 id="developer-guide">Developer Guide: Integrating Your Plugin <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <p>Batch Order Select is designed as a foundation for other Zen Cart plugins. Rather than adding your own checkbox column to <code>admin/orders.php</code> or building custom JavaScript to track selected rows, your plugin simply adds its action button(s) to the shared toolbar and receives the selected Order IDs upon submission.</p>
+
+    <h3 id="shared-checkboxes">How Shared Checkboxes Work</h3>
+    <p>When an administrator checks orders in the table and clicks any plugin's submit button inside the shared action bar, Batch Order Select intercepts the form submission in JavaScript and dynamically populates the clicked form:</p>
+    <ol>
+        <li><strong>One Set of Checkboxes for All Plugins:</strong> Every row in the orders table renders a single checkbox (<code>input.zc-bos-check</code>) whose <code>value</code> is the order's <code>orders_id</code>. Checkboxes are not tied to a single wrapping <code>&lt;form&gt;</code> around the table; instead, each plugin places its own compact <code>&lt;form&gt;</code> inside the top action bar.</li>
+        <li><strong>Automatic Button Enabling/Disabling:</strong> Any <code>button[type="submit"]</code> or <code>input[type="submit"]</code> inside the <code>.zc-bos-actions</code> container starts with the <code>disabled</code> attribute. Batch Order Select automatically enables all submit buttons as soon as one or more orders are checked, and disables them again if all checkboxes are cleared.</li>
+        <li><strong>On-Submit Order ID Injection:</strong> When the admin clicks your plugin's submit button, Batch Order Select reads all currently checked boxes in table order and writes one hidden <code>&lt;input type="hidden"&gt;</code> per selected order directly into the submitted form right before it posts.</li>
+        <li><strong>Customizable Field Name:</strong> By default, the injected hidden inputs are named <code>batch_order_ids[]</code> (arriving in PHP as <code>$_POST['batch_order_ids']</code>). You can customize this input name per form using the <code>data-zc-bos-field</code> attribute.</li>
+    </ol>
+
+    <h3 id="appending-buttons">How to Append Action Buttons to the Existing Row</h3>
+    <p>To add your plugin's button(s) to the shared action row above the orders table, create an admin observer that listens for the <code>NOTIFY_BATCH_ORDER_SELECT_BUTTONS</code> event:</p>
+    <ul>
+        <li><strong>Event to Observe:</strong> <code>NOTIFY_BATCH_ORDER_SELECT_BUTTONS</code> (fires while the orders listing action row is being built).</li>
+        <li><strong>First Parameter (<code>$p1</code>):</strong> An associative array containing context information: <code>['context' => 'orders_listing']</code>.</li>
+        <li><strong>Second Parameter (<code>&amp;$p2</code>):</strong> A string passed by reference containing the accumulated HTML for the buttons inside <code>.zc-bos-actions</code>.
+            <ul>
+                <li><strong>Append</strong> your form HTML to <code>$p2</code> (<code>$p2 .= ...</code>).</li>
+                <li><strong>Do NOT overwrite</strong> <code>$p2</code>, as that would erase buttons added by other plugins.</li>
+                <li><strong>Do NOT wrap</strong> your output in a <code>&lt;div class="row"&gt;</code>. Batch Order Select already wraps the entire toolbar in a single <code>.row.noprint.zc-bos-bar</code> container.</li>
+            </ul>
+        </li>
+        <li><strong>Form Structure Rules:</strong>
+            <ul>
+                <li>Give your <code>&lt;form&gt;</code> the class <code>zc-bos-form</code>.</li>
+                <li>Set <code>data-zc-bos-field="batch_order_ids[]"</code> (or your preferred array field name) on the <code>&lt;form&gt;</code> tag.</li>
+                <li>Include an empty <code>&lt;span class="zc-bos-ids"&gt;&lt;/span&gt;</code> inside the form to provide a dedicated slot where Batch Order Select will write the hidden order ID inputs on submit.</li>
+                <li>Render your submit button(s) with the <code>disabled</code> attribute initially set.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3 id="code-example">Complete Observer &amp; Form Example</h3>
+    <p>First, here is the HTML markup structure your plugin should append to <code>$p2</code>:</p>
+<pre><code>&lt;form method="post" action="..." class="zc-bos-form" data-zc-bos-field="batch_order_ids[]"&gt;
+  &lt;span class="zc-bos-ids"&gt;&lt;/span&gt;
+  &lt;button type="submit" name="document" value="invoice" class="btn btn-primary btn-sm" disabled&gt;Print invoices&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <p>Below is a completeZen Cart admin observer example showing how another plugin hooks into <code>NOTIFY_BATCH_ORDER_SELECT_BUTTONS</code> using standard Zen Cart functions:</p>
+<pre><code>&lt;?php
+if (!defined('IS_ADMIN_FLAG')) {
+    die('Illegal Access');
+}
+
+class zcObserverMyBatchPlugin extends base
+{
+    public function __construct()
+    {
+        $this-&gt;attach($this, [
+            'NOTIFY_BATCH_ORDER_SELECT_BUTTONS',
+        ]);
+    }
+
+    public function notify_batch_order_select_buttons(&amp;$class, string $eventID, $p1, &amp;$p2): void
+    {
+        if (!is_string($p2)) {
+            $p2 = '';
+        }
+
+        // zen_draw_form() automatically incorporates zen_href_link()
+        $form = zen_draw_form(
+            'my_batch_action',
+            FILENAME_ORDERS,
+            'action=my_batch_process',
+            'post',
+            'class="zc-bos-form" data-zc-bos-field="batch_order_ids[]"'
+        );
+        $form .= '&lt;span class="zc-bos-ids"&gt;&lt;/span&gt;';
+        $form .= '&lt;button type="submit" name="document" value="invoice" class="btn btn-primary btn-sm" disabled&gt;'
+            . 'Print Invoices'
+            . '&lt;/button&gt;';
+        $form .= '&lt;/form&gt;';
+
+        // Append to $p2 — never replace $p2 or wrap in a new .row
+        $p2 .= $form;
+    }
+}</code></pre>
+
+    <p>When the admin selects orders <code>1001</code>, <code>1004</code>, and <code>1009</code> and clicks <strong>Print Invoices</strong>, your target controller receives:</p>
+<pre><code>$_POST['batch_order_ids'] = ['1001', '1004', '1009'];
+$_POST['document']        = 'invoice';</code></pre>
+
+    <h3 id="technical-notes">Technical Details &amp; Notifiers</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Notifier / Component</th>
+                <th>Purpose &amp; Behavior</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>NOTIFY_ADMIN_ORDERS_LIST_LEADING_COLUMN_HEADING</code></td>
+                <td>Fires in <code>admin/orders.php</code> before the Order ID column heading. Batch Order Select appends the "Select All" header checkbox cell to <code>$leading_headings</code>.</td>
+            </tr>
+            <tr>
+                <td><code>NOTIFY_ADMIN_ORDERS_LIST_LEADING_COLUMN_DATA</code></td>
+                <td>Fires in <code>admin/orders.php</code> for each order row before the Order ID cell. Passes <code>$orders-&gt;fields</code> as the second parameter (<code>$p2</code>) so Batch Order Select reads <code>$p2['orders_id']</code> directly without touching any global query result.</td>
+            </tr>
+            <tr>
+                <td><code>NOTIFY_ADMIN_ORDERS_LISTING_BUTTONS</code></td>
+                <td>Native Zen Cart notifier (present in stock ZC 2.1.0+). Batch Order Select observes this to fire <code>NOTIFY_BATCH_ORDER_SELECT_BUTTONS</code> and output the unified <code>.zc-bos-bar</code> action row.</td>
+            </tr>
+            <tr>
+                <td><code>NOTIFY_BATCH_ORDER_SELECT_BUTTONS</code></td>
+                <td>Fired by Batch Order Select. Third-party batch plugins observe this event and append their <code>form.zc-bos-form</code> markup to <code>$p2</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="uninstallation">Uninstallation <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <ol>
+        <li>First, uninstall any dependent plugins that add buttons to the Batch Order Select row (such as <em>Batch Order Print</em>).</li>
+        <li>Navigate to <strong>Modules &gt; Plugin Manager</strong>, select <strong>Batch Order Select</strong>, and click <strong>Uninstall</strong>.</li>
+        <li>No database tables or configuration rows are created by this plugin, so your database remains completely clean.</li>
+        <li><strong>Note for Zen Cart 2.1.0 – 2.2.2 users:</strong> Uninstalling the plugin does not modify or overwrite <code>admin/orders.php</code>. The added notifiers are harmless when no observer is attached, and the original backup made at install time remains safely stored at <code>admin/orders.php_bos_backup</code>.</li>
+    </ol>
+
+    <h2 id="common-issues">Common Issues <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <ul>
+        <li><strong>Install paused on Zen Cart 2.1.0 – 2.2.2:</strong> This is an intentional safety feature. The first time you click Install on a pre-2.3.0 store, the installer verifies file permissions and prompts you to confirm patching <code>admin/orders.php</code>. Simply click <strong>Install</strong> a second time within 15 minutes to complete the installation.</li>
+        <li><strong>"admin/orders.php is not writable" error:</strong> On Zen Cart 2.2.2 and earlier, ensure that both <code>admin/orders.php</code> and your <code>admin/</code> directory have write permissions so the installer can save <code>admin/orders.php_bos_backup</code> and update the file.</li>
+        <li><strong>Restoring the backup manually:</strong> If you ever need to revert <code>admin/orders.php</code> on a pre-2.3.0 store, delete the modified <code>admin/orders.php</code> and rename <code>admin/orders.php_bos_backup</code> back to <code>admin/orders.php</code>.</li>
+    </ul>
+
+    <h2 id="sources-credits">Sources and Credits <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <p>External libraries used in this plugin: none (pure vanilla JavaScript and native Zen Cart observer architecture).</p>
+    <p>If you find this module useful, <a href="https://zenexpert.com/shop/donations/donation" target="_blank"><strong>please consider donating via PayPal</strong></a> to ensure this module is supported and improved ($10 - $30 recommended).</p>
+
+    <h2 id="support">Support <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <p>This plugin comes with limited support. There is an official support thread on the public Forum, but keep in mind that support is on voluntary basis so you might have to wait a while before your question gets answered.</p>
+    <p>Please note that I don't provide support for this module via email for free. Any private support is considered commercial work and will be billed at my standard hourly rate.</p>
+    <p>One question that is often asked - "will the plugin work with a new (future) version of Zen Cart?". Well, give me a minute to pull out my magic crystal ball and see what the future brings... There is no way to guarantee future compatibility, but I'll do my best to keep it compatible with future versions of Zen Cart.</p>
+
+    <h2 id="license">License <a href="#top" class="back-to-top">&uarr; top</a></h2>
+    <p>The plugin is licensed under <a href="https://www.zen-cart.com/license/2_0.txt" target="_blank">GNU Public License V2.0 (GPL)</a>.</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 2rem 0;">
+    <p>Once again, thank you for downloading this file. As I said at the beginning, I'd be glad to help you if you have any questions relating to this plugin. No guarantees, but I'll do my best to assist.</p>
+
+    <p>Regards,<br>Leonard</p>
+
+</main>
+
+</body>
+</html>
